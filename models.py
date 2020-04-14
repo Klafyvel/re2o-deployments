@@ -74,6 +74,8 @@ class Parameter(RevMixin, AclMixin, models.Model):
     object_id = models.PositiveIntegerField()
     dynamic_object = GenericForeignKey('type.content_type', 'object_id')
 
+    update_required = models.BooleanField(default=False)
+
     @property
     def value(self):
         return getattr(self.dynamic_object, self.type.dynamic_field)
