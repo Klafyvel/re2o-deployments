@@ -1,0 +1,116 @@
+{% extends 'machines/sidebar.html' %}
+{% comment %}
+Re2o est un logiciel d'administration développé initiallement au rezometz. Il
+se veut agnostique au réseau considéré, de manière à être installable en
+quelques clics.
+
+Copyright © 2020  Hugo Levy-Falk
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+{% endcomment %}
+
+{% load acl %}
+{% load i18n %}
+{% load logs_extra %}
+{% load design %}
+
+{% block content %}
+    <h2>{% trans "Recipe" %} : {{recipe.name}}</h2>
+    {% include 'buttons/edit.html' with href='deployments:edit-recipe' id=recipe.id %}
+    <h3>{% trans "Description" %}</h3>
+    <p>{{recipe.description}}</p>
+
+    <h2>{% trans "Parameters" %}</h2>
+    <a class="btn btn-primary btn-sm" role="button" href="{% url 'deployments:new-parametertype' recipeid=recipe.id %}"><i class="fa fa-plus"></i> {% trans "Add a parameter" %}</a>
+    <h3>{% trans "Fixed values"%}</h3>
+    <table class="table table-striped">
+       <thead>
+       <tr>
+           <th>{% trans "Name" %}</th>
+           <th>{% trans "value" %}</th>
+           <th></th>
+       </tr>
+       </thead>
+       {% for parameter in recipe.fixed_parameters %}
+       <tr>
+           <td>{{ parameter.name }}</td>
+           <td>{{ parameter.default_value }}</td>
+           <td class="text-right">
+               {% can_edit parameter %}
+               {% include 'buttons/edit.html' with href='deployments:edit-parametertype' id=parameter.id %}
+               {% acl_end %}
+               {% can_delete parameter %}
+               {% include 'buttons/suppr.html' with href='deployments:del-parametertype' id=parameter.id %}
+               {% acl_end %}
+               {% history_button parameter %}
+           </td>
+       </tr>
+       {% endfor %}
+    </table>   
+    <h3>{% trans "Dynamic values"%}</h3>
+    <table class="table table-striped">
+       <thead>
+       <tr>
+           <th>{% trans "Name" %}</th>
+           <th>{% trans "Model" %}</th>
+           <th>{% trans "Field" %}</th>
+           <th>{% trans "Instance related" %}</th>
+           <th></th>
+       </tr>
+       </thead>
+       {% for parameter in recipe.dynamic_parameters %}
+       <tr>
+           <td>{{ parameter.name }}</td>
+           <td>{{ parameter.content_type }}</td>
+           <td>{{ parameter.dynamic_field }}</td>
+           <td>{{ parameter.on_instance | tick }}</td>
+           <td class="text-right">
+               {% can_edit parameter %}
+               {% include 'buttons/edit.html' with href='deployments:edit-parametertype' id=parameter.id %}
+               {% acl_end %}
+               {% can_delete parameter %}
+               {% include 'buttons/suppr.html' with href='deployments:del-parametertype' id=parameter.id %}
+               {% acl_end %}
+               {% history_button parameter %}
+           </td>
+       </tr>
+       {% endfor %}
+    </table>   
+    <h3>{% trans "Form values"%}</h3>
+    <table class="table table-striped">
+       <thead>
+       <tr>
+           <th>{% trans "Name" %}</th>
+           <th>{% trans "Default value" %}</th>
+           <th></th>
+       </tr>
+       </thead>
+       {% for parameter in recipe.form_parameters %}
+       <tr>
+           <td>{{ parameter.name }}</td>
+           <td>{{ parameter.default_value }}</td>
+           <td class="text-right">
+               {% can_edit parameter %}
+               {% include 'buttons/edit.html' with href='deployments:edit-parametertype' id=parameter.id %}
+               {% acl_end %}
+               {% can_delete parameter %}
+               {% include 'buttons/suppr.html' with href='deployments:del-parametertype' id=parameter.id %}
+               {% acl_end %}
+               {% history_button parameter %}
+           </td>
+       </tr>
+       {% endfor %}
+        </table>   
+{% endblock %}

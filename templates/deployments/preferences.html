@@ -1,0 +1,27 @@
+{% load i18n %}
+
+<div  class="panel panel-default" id="deployments">
+    <div class="panel-heading" data-toggle="collapse" href="#collapse_deployments">
+        <h4 class="panel-title">
+            <a><i class="fa fa-rocket"></i> {% trans "Deployments" %}</a>
+        </h4>
+    </div>
+    
+	<div id="collapse_deployments" class="panel-collapse panel-body collapse">
+		
+        <a class="btn btn-primary btn-sm" role="button" href="{% url 'deployments:edit-preferences-deployments' %}">
+            <i class="fa fa-edit"></i>
+            {% trans "Edit" %}
+        </a>
+        <p></p>    
+            
+        <div class="table-responsive">
+        <table class="table">
+			<tr>
+                <th><p>{% trans "Compagnon Website URL" %}</p></th>
+                <td><p><a href="{{ preferences.compagnon_url }}" target="_blank" rel="noopener noreferrer">{{ preferences.compagnon_url }}</a></p></td>
+			</tr>
+  		</table>
+		</div>
+    </div>
+</div>
