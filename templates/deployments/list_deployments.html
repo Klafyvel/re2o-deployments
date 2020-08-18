@@ -43,6 +43,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
             <td>{% for parameter in deployment.parametertype_set.all %}{{ parameter }}, {% endfor %}</td>
             <td class="text-right">
                 {% can_edit deployment %}
+                <a class="btn btn-primary btn-sm" role="button" href="{% url 'deployments:deploy' deployment.id %}" title="{% trans "Deploy" %}">
+                    <i class="fa fa-rocket"></i> {% trans "Deploy" %}
+                </a>
                 {% include 'buttons/edit.html' with href='deployments:edit-deployment' id=deployment.id %}
                 {% acl_end %}
                 {% can_delete deployment %}

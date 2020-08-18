@@ -28,7 +28,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 {% block content %}
     <h2>{% trans "Recipe" %} : {{recipe.name}}</h2>
-    {% include 'buttons/edit.html' with href='deployments:edit-recipe' id=recipe.id %}
+    <a class="btn btn-primary btn-sm" role="button" href="{%url 'deployments:edit-recipe' recipe.id %}">
+        <i class="fa fa-edit"></i> {% trans "Edit" %}
+    </a>
+    <a class="btn btn-primary btn-sm" role="button" href="{% url 'deployments:new-deployment' recipe.id %}" title="{% trans "Deploy" %}">
+    <i class="fa fa-rocket"></i> {% trans "Deploy" %}
+    </a>
     <h3>{% trans "Description" %}</h3>
     <p>{{recipe.description}}</p>
 

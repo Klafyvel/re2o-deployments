@@ -160,9 +160,12 @@ def delete_parametertype(request, parametertype, **_kwargs):
 
 @login_required
 @can_create(Deployment)
-def new_deployment(request, **_kwargs):
+@can_view(Recipe)
+def new_deployment(request, recipe, **_kwargs):
     """View allowing the creation of Deployment."""
-    return create_view(request, _("Deployment"), DeploymentForm)
+    return create_view(
+        request, _("Deployment of recipe '%s'") % recipe, DeploymentForm, recipe=recipe
+    )
 
 
 @login_required

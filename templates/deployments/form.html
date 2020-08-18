@@ -36,7 +36,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
         {% csrf_token %}
         {% if form %}
         <h3>{{ title  }}</h3>
-            {% massive_bootstrap_form form 'user' %}
+            {% massive_bootstrap_form form 'user,model_field' %}
         {% endif %}
         {% bootstrap_button action_name button_type="submit" icon='ok' button_class='btn-success' %}
     </form>
